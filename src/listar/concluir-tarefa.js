@@ -18,14 +18,16 @@ function ConcluirTarefa(props) {
 		setExibirModal(false);
 	}
 
-	async function handleConcluirTarefa(event) {
+	function handleConcluirTarefa(event) {
 		event.preventDefault();
 		const tarefasDb = localStorage['tarefas'];
 		let tarefas = tarefasDb ? JSON.parse(tarefasDb) : [];
-		tarefas = await tarefas.map(tarefa => {
+		tarefas = tarefas.map(tarefa => {
 			if (tarefa.id === props.tarefa.id) {
+				console.log('tarefa: ', tarefa);
 				tarefa.concluida = true;
 			};
+
 			return tarefa;
 		});
 
