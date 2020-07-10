@@ -68,7 +68,7 @@ function Paginacao(props) {
 	}
 
 	return (
-		<Pagination>
+		<Pagination data-testid="paginacao">
 			{obterPaginacao()}
 		</Pagination>
 	);
