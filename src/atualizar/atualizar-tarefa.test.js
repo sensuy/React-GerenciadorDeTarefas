@@ -7,7 +7,6 @@ import '@testing-library/jest-dom/extend-expect';
 
 describe('Teste do componente de atualização de tarefas', () => {
 
-	const tarefaId = '1';
 	const tarefa = new Tarefa(1, 'Nova Tarefa', false);
 
 	beforeEach(() => {
@@ -16,12 +15,22 @@ describe('Teste do componente de atualização de tarefas', () => {
 
 	it('Deve renderizar o componente sem erros', () => {
 		const div = document.createElement('div');
-		ReactDOM.render(<AtualizarTarefa id={tarefaId} />, div);
+		ReactDOM.render(<AtualizarTarefa id={tarefa.id} />, div);
 		ReactDOM.unmountComponentAtNode(div);
 	});
 
 	it('Deve exibir a modal de sucesso ao atualizar uma tarefa', () => {
 		const { getByTestId } = render(<AtualizarTarefa id={tarefa.id} />);
 		fireEvent.click(getByTestId('btn-atualizar'));
+		expect(getByTestId('modal')).toHaveTextContent('Sucesso');
+	});
+
+	it('Deve atualizar uma tarefa', () => {
+		const nomeTarefaAtualizada = 'Tarefa atualizada';
+		const { getByTestId } = render(<AtualizarTarefa id={tarefa.id} />);
+		fireEvent.change(getByTestId('txt-tarefa'), { target: { value: nomeTarefaAtualizada } });
+		fireEvent.click(getByTestId('btn-atualizar'));
+		const tarefasDb = JSON.parse(localStorage['tarefas']);
+		expect(tarefasDb[0].nome).toBe(nomeTarefaAtualizada);
 	})
 })
